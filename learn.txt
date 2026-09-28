@@ -1,0 +1,29 @@
+                    ┌──────────────┐
+                    │   Postgres   │
+                    │  (fake etcd) │
+                    └──────▲───────┘
+                           │
+                    ┌──────┴───────┐
+                    │  API Server  │
+                    └───▲───────▲──┘
+                        │       │
+             ┌──────────┘       └──────────┐
+             │                             │
+       ┌─────┴─────┐                 ┌─────┴─────────┐
+       │ Scheduler │                 │ Controller    │
+       │           │                 │ Manager       │
+       └─────┬─────┘                 └───────────────┘
+             │
+             │ decide + run
+             ↓
+       ┌─────────────┐
+       │ Docker      │
+       │ Runtime     │
+       └──────┬──────┘
+              ↓
+             Pod
+
+Api-server - > based on user input(api-calls), it will make changes to Db
+controller: , do pooling of DB to look for updates ->will do the reconciliation and tranfer the needded action(change) to schedular
+schedular :   based on info from controller, it will use cri to actually execute those changes
+cri ->
